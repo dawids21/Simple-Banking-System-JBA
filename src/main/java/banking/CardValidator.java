@@ -11,7 +11,7 @@ public class CardValidator {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    public boolean valid(String cardNumber, String cardPin) {
+    public boolean validate(String cardNumber, String cardPin) {
         //TODO implement valid
         throw new UnsupportedOperationException("Not implemented yet");
     }

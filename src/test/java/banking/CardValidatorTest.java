@@ -27,16 +27,18 @@ class CardValidatorTest {
 
     @Test
     void returns_true_when_number_and_pin_are_matched() {
-        assertTrue(validator.valid(CARD_IIN + CARD_ACCOUNT_ID + CARD_CHECKSUM, CARD_PIN));
+        assertTrue(validator.validate(CARD_IIN + CARD_ACCOUNT_ID + CARD_CHECKSUM,
+                                      CARD_PIN));
     }
 
     @Test
     void returns_false_when_number_does_not_exist() {
-        assertTrue(validator.valid("1234567890123456", ""));
+        assertTrue(validator.validate("1234567890123456", ""));
     }
 
     @Test
     void returns_false_when_number_and_pin_are_not_matched() {
-        assertFalse(validator.valid(CARD_IIN + CARD_ACCOUNT_ID + CARD_CHECKSUM, "0000"));
+        assertFalse(
+                 validator.validate(CARD_IIN + CARD_ACCOUNT_ID + CARD_CHECKSUM, "0000"));
     }
 }
