@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class CardGenerator {
 
-    private String iin;
+    private final String iin;
 
     private final HashSet<Card> generatedCards = new HashSet<>();
 
@@ -24,10 +24,6 @@ public class CardGenerator {
         } while (generatedCards.contains(card));
         generatedCards.add(card);
         return card;
-    }
-
-    public void setIin(String iin) {
-        this.iin = iin;
     }
 
     public String getIin() {
