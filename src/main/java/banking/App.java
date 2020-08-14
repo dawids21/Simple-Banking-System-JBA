@@ -15,6 +15,37 @@ public class App {
         final var input = new Scanner(System.in);
         Account loggedAccount = null;
 
+        while (true) {
+            System.out.println(getMenuText(state));
+            var inputLine = input.nextLine();
+            switch (state) {
+
+                case MENU:
+                    switch (inputLine) {
+                        case "1":
+                            break;
+                        case "2":
+                            break;
+                        case "0":
+                            input.close();
+                            System.exit(0);
+                    }
+                    break;
+                case LOGGED:
+                    switch (inputLine) {
+                        case "1":
+                            break;
+                        case "2":
+                            break;
+                        case "0":
+                            input.close();
+                            System.exit(0);
+                    }
+                    break;
+            }
+        }
+    }
+
     private static String getMenuText(AppStates state) {
         String menu;
         switch (state) {
