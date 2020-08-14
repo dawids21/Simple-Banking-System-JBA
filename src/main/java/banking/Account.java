@@ -7,6 +7,7 @@ public class Account {
 
     public Account(Card card) {
         this.card = card;
+        this.balance = 0;
     }
 
     public Account(Card card, long balance) {
