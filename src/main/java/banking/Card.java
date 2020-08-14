@@ -2,13 +2,23 @@ package banking;
 
 public class Card {
 
+    private final String iin;
+    private final String accountID;
+    private final String checksum;
+    private final String pin;
+
+    public Card(String iin, String accountID, String checksum, String pin) {
+        this.iin = iin;
+        this.accountID = accountID;
+        this.checksum = checksum;
+        this.pin = pin;
+    }
+
     public String getNumber() {
-        //TODO implement getNumber
-        throw new UnsupportedOperationException("Not implemented yet");
+        return iin + accountID + checksum;
     }
 
     public String getPin() {
-        //TODO implement getPin
-        throw new UnsupportedOperationException("Not implemented yet");
+        return pin;
     }
 }
