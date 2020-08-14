@@ -33,7 +33,7 @@ class CardValidatorTest {
 
     @Test
     void returns_false_when_number_does_not_exist() {
-        assertTrue(validator.validate("1234567890123456", ""));
+        assertFalse(validator.validate("1234567890123456", ""));
     }
 
     @Test
