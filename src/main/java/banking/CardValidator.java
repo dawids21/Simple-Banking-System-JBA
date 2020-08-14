@@ -1,12 +1,13 @@
 package banking;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class CardValidator {
 
-    private final HashSet<Card> cards;
+    private final Set<Card> cards;
 
-    public CardValidator(HashSet<Card> cards) {
+    public CardValidator(Set<Card> cards) {
         this.cards = cards;
     }
 
