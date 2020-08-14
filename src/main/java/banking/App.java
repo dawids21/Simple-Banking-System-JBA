@@ -23,6 +23,13 @@ public class App {
                 case MENU:
                     switch (inputLine) {
                         case "1":
+                            var card = generator.generate();
+                            System.out.println("Your card has been created");
+                            System.out.println("Your card number");
+                            System.out.println(card.getNumber());
+                            System.out.println("Your card PIN:");
+                            System.out.println(card.getPin());
+                            accounts.put(card, new Account(card));
                             break;
                         case "2":
                             break;
