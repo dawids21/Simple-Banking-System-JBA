@@ -9,6 +9,11 @@ public class Card {
     private final String checksum;
     private final String pin;
 
+    public Card(String number, String pin) {
+        this(number.substring(0, 6), number.substring(6, number.length() - 1),
+             number.substring(number.length() - 1), pin);
+    }
+
     public Card(String iin, String accountID, String checksum, String pin) {
         this.iin = iin;
         this.accountID = accountID;
