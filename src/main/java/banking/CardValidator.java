@@ -7,12 +7,12 @@ public class CardValidator {
     private final HashSet<Card> cards;
 
     public CardValidator(HashSet<Card> cards) {
-        //TODO implement CardValidator
-        throw new UnsupportedOperationException("Not implemented yet");
+        this.cards = cards;
     }
 
     public boolean validate(String cardNumber, String cardPin) {
-        //TODO implement valid
-        throw new UnsupportedOperationException("Not implemented yet");
+        var card = new Card(cardNumber, cardPin);
+
+        return cards.contains(card);
     }
 }
