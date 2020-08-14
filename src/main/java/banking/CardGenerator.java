@@ -1,14 +1,36 @@
 package banking;
 
+import java.util.HashSet;
+import java.util.Random;
+
 public class CardGenerator {
 
-    public CardGenerator(String s) {
-        //TODO implement CardGenerator
-        throw new UnsupportedOperationException("Not implemented yet");
+    private String iin;
+
+    private final HashSet<Card> generatedCards = new HashSet<>();
+
+    public CardGenerator(String iin) {
+        this.iin = iin;
     }
 
     public Card generate() {
-        //TODO implement generate
-        throw new UnsupportedOperationException("Not implemented yet");
+        Card card;
+        var random = new Random();
+        do {
+            var accountID = String.format("%09d", random.nextInt(1000000000));
+            var checksum = random.nextInt(10); //TODO implement Luhn algorithm
+            var pin = String.format("%04d", random.nextInt(10000));
+            card = new Card(getIin(), accountID, String.valueOf(checksum), pin);
+        } while (generatedCards.contains(card));
+        generatedCards.add(card);
+        return card;
+    }
+
+    public void setIin(String iin) {
+        this.iin = iin;
+    }
+
+    public String getIin() {
+        return iin;
     }
 }
