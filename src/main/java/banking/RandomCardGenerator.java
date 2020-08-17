@@ -4,14 +4,11 @@ import java.util.Random;
 
 public class RandomCardGenerator implements CardGenerator {
 
-    private final String iin;
-
-    public RandomCardGenerator(String iin) {
-        this.iin = iin;
+    public RandomCardGenerator() {
     }
 
     @Override
-    public Card generate(int accountId) {
+    public Card generate(String iin, int accountId) {
         var random = new Random();
         var checksum = random.nextInt(10); //TODO implement Luhn algorithm
         var pin = String.format("%04d", random.nextInt(10000));

@@ -9,17 +9,15 @@ class BankTest {
 
     static class TestCardGenerator implements CardGenerator {
 
-        private final String cardIin;
         private final String cardPin;
 
-        public TestCardGenerator(String cardIin, String cardPin) {
-            this.cardIin = cardIin;
+        public TestCardGenerator(String cardPin) {
             this.cardPin = cardPin;
         }
 
         @Override
-        public Card generate(int accountId) {
-            return new Card(cardIin + String.format("%09d", accountId) + "0", cardPin);
+        public Card generate(String iin, int accountId) {
+            return new Card(iin + String.format("%09d", accountId) + "0", cardPin);
         }
     }
 
@@ -32,7 +30,7 @@ class BankTest {
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(new BankTest.TestCardGenerator(IIN, PIN));
+            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN));
             accountId = bank.createAccount();
         }
 
@@ -62,7 +60,7 @@ class BankTest {
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(new BankTest.TestCardGenerator(IIN, PIN));
+            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN));
             accountId = bank.createAccount();
         }
 
@@ -74,7 +72,13 @@ class BankTest {
 
         @Test
         void returns_false_when_account_does_not_exist() {
-            assertFalse(bank.login("0000000000000000", "1234"));
+            assertFalse(bank.login(IIN + "123123123" + "0", "1234"));
+            assertFalse(bank.isLogged());
+        }
+
+        @Test
+        void returns_false_when_card_number_has_not_correct_iin() {
+            assertFalse(bank.login("123456" + "000000000" + "0", "1234"));
             assertFalse(bank.isLogged());
         }
 
@@ -94,7 +98,7 @@ class BankTest {
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(new BankTest.TestCardGenerator(IIN, PIN));
+            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN));
             accountId = bank.createAccount();
         }
 
@@ -130,7 +134,7 @@ class BankTest {
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(new BankTest.TestCardGenerator(IIN, PIN));
+            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN));
             accountId = bank.createAccount();
         }
 
