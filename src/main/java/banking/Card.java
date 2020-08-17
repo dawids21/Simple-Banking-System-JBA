@@ -25,6 +25,10 @@ public class Card {
         return iin + accountID + checksum;
     }
 
+    public String getAccountID() {
+        return accountID;
+    }
+
     public String getPin() {
         return pin;
     }
