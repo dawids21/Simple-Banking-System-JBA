@@ -41,7 +41,8 @@ public class App {
                         case "1":
                             break;
                         case "2":
-                            bank.logout();
+                            invoker.setCommand(new LogoutCommand(bank));
+                            invoker.execute();
                             state = AppStates.MENU;
                             break;
                         case "0":
