@@ -1,6 +1,5 @@
 package banking;
 
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class App {
@@ -9,27 +8,21 @@ public class App {
 
     public static void main(String[] args) {
         var state = AppStates.MENU;
-        final var accounts = new HashMap<Card, Account>();
-        final var generator = new CardGenerator(IIN);
-        final var validator = new CardValidator(accounts.keySet());
         final var input = new Scanner(System.in);
-        Account loggedAccount = null;
+        final var invoker = new CommandInvoker();
+        final var bank = new Bank(IIN, new RandomCardGenerator());
 
         while (true) {
             System.out.println(getMenuText(state));
             var inputLine = input.nextLine();
+            System.out.println();
             switch (state) {
 
                 case MENU:
                     switch (inputLine) {
                         case "1":
-                            var card = generator.generate();
-                            System.out.println("Your card has been created");
-                            System.out.println("Your card number");
-                            System.out.println(card.getNumber());
-                            System.out.println("Your card PIN:");
-                            System.out.println(card.getPin());
-                            accounts.put(card, new Account(card));
+                            invoker.setCommand(new CreateAccountCommand(bank));
+                            invoker.execute();
                             break;
                         case "2":
                             break;
@@ -52,6 +45,19 @@ public class App {
             }
         }
     }
+
+    //    private static Account login(Scanner input, HashMap<String, Account> accounts,
+    //                                 CardValidator validator) {
+    //        System.out.println("Enter your card number:");
+    //        var cardNumber = input.nextLine();
+    //        System.out.println("Enter your PIN");
+    //        var cardPin = input.nextLine();
+    //        if (validator.validate(cardNumber, cardPin)) {
+    //            return accounts.get(cardNumber);
+    //        } else {
+    //            return null;
+    //        }
+    //    }
 
     private static String getMenuText(AppStates state) {
         String menu;
