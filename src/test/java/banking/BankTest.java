@@ -1,0 +1,5 @@
+package banking;
+
+class BankTest {
+
+}
