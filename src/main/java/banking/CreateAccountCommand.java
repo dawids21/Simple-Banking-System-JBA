@@ -17,5 +17,6 @@ public class CreateAccountCommand implements Command {
         System.out.println(card.getNumber());
         System.out.println("Your card PIN:");
         System.out.println(card.getPin());
+        System.out.println();
     }
 }
