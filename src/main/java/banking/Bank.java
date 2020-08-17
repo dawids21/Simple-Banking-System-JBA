@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public class Bank {
 
+    private final String iin;
     private final CardGenerator cardGenerator;
     private final ArrayList<Account> accounts;
     private Account loggedAccount;
 
-    public Bank(CardGenerator cardGenerator) {
+    public Bank(String iin, CardGenerator cardGenerator) {
+        this.iin = iin;
         this.cardGenerator = cardGenerator;
         accounts = new ArrayList<>();
         loggedAccount = null;
@@ -16,11 +18,14 @@ public class Bank {
 
     public int createAccount() {
         int accountId = accounts.size();
-        accounts.add(new Account(cardGenerator.generate(accountId)));
+        accounts.add(new Account(cardGenerator.generate(iin, accountId)));
         return accountId;
     }
 
     public Account getAccount(int accountId) {
+        if (accounts.size() <= accountId) {
+            return null;
+        }
         return accounts.get(accountId);
     }
 
@@ -29,28 +34,44 @@ public class Bank {
                        .getCard();
     }
 
-    private boolean validateCard(String cardNumber, String cardPin) {
-        //TODO implement validateCard
-        throw new UnsupportedOperationException("Not implemented yet");
+    public boolean login(String cardNumber, String cardPin) {
+        var accountId =
+                 Integer.parseInt(cardNumber.substring(6, cardNumber.length() - 1));
+        if (!cardNumber.startsWith(iin)) {
+            return false;
+        }
+        if (getAccount(accountId) == null) {
+            return false;
+        }
+
+        if (validateCard(accountId, cardPin)) {
+            loggedAccount = accounts.get(accountId);
+            return true;
+        }
+
+        return false;
     }
 
-    public boolean login(String cardNumber, String cardPin) {
-        //TODO implement login
-        throw new UnsupportedOperationException("Not implemented yet");
+    private boolean validateCard(int accountId, String cardPin) {
+        return accounts.get(accountId)
+                       .getCard()
+                       .getPin()
+                       .equals(cardPin);
     }
 
     public Account getLoggedAccount() {
-        //TODO implement getLoggedAccount
-        throw new UnsupportedOperationException("Not implemented yet");
+        return loggedAccount;
     }
 
     public boolean isLogged() {
-        //TODO implement isLogged
-        throw new UnsupportedOperationException("Not implemented yet");
+        return loggedAccount != null;
     }
 
     public boolean logout() {
-        //TODO implement logout
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (isLogged()) {
+            loggedAccount = null;
+            return true;
+        }
+        return false;
     }
 }

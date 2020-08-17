@@ -140,7 +140,7 @@ class BankTest {
 
         @Test
         void returns_true_after_successful_logout() {
-            bank.login(IIN + String.format("%09d", accountId) + "0", "2222");
+            bank.login(IIN + String.format("%09d", accountId) + "0", PIN);
 
             assertTrue(bank.logout());
             assertFalse(bank.isLogged());
