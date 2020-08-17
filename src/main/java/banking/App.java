@@ -65,7 +65,7 @@ public class App {
                 menu = "1. Create an account\n2. Log into account\n0. Exit";
                 break;
             case LOGGED:
-                menu = "1. Balance\n2.Log out\n0. Exit";
+                menu = "1. Balance\n2. Log out\n0. Exit";
                 break;
             default:
                 menu = "";

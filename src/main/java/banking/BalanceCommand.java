@@ -12,7 +12,7 @@ public class BalanceCommand implements Command {
     public void execute() {
         System.out.println();
         if (account != null) {
-            System.out.println("Balance" + account.getBalance());
+            System.out.println("Balance: " + account.getBalance());
         } else {
             System.out.println("Balance: unknown");
         }
