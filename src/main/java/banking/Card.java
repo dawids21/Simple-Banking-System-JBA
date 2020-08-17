@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Card {
 
     private final String iin;
-    private final String accountID;
+    private final String accountId;
     private final String checksum;
     private final String pin;
 
@@ -14,19 +14,19 @@ public class Card {
              number.substring(number.length() - 1), pin);
     }
 
-    public Card(String iin, String accountID, String checksum, String pin) {
+    public Card(String iin, String accountId, String checksum, String pin) {
         this.iin = iin;
-        this.accountID = accountID;
+        this.accountId = accountId;
         this.checksum = checksum;
         this.pin = pin;
     }
 
     public String getNumber() {
-        return iin + accountID + checksum;
+        return iin + accountId + checksum;
     }
 
     public String getAccountID() {
-        return accountID;
+        return accountId;
     }
 
     public String getPin() {
@@ -43,14 +43,14 @@ public class Card {
         }
         Card card = (Card) o;
         return Objects.equals(iin, card.iin) &&
-               Objects.equals(accountID, card.accountID) &&
+               Objects.equals(accountId, card.accountId) &&
                Objects.equals(checksum, card.checksum) &&
                Objects.equals(getPin(), card.getPin());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(iin, accountID, checksum, getPin());
+        return Objects.hash(iin, accountId, checksum, getPin());
     }
 
     @Override
