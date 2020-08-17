@@ -22,6 +22,10 @@ public class LoginCommand implements Command {
         System.out.println("Enter your PIN");
         var cardPin = input.nextLine();
         System.out.println();
+        if (cardNumber.length() != 16 && cardPin.length() != 4) {
+            System.out.println("Card number should have 16 digits and pin 4 digits");
+            return;
+        }
         if (bank.login(cardNumber, cardPin)) {
             System.out.println("You have successfully logged in!");
         } else {
