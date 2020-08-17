@@ -25,6 +25,11 @@ public class App {
                             invoker.execute();
                             break;
                         case "2":
+                            invoker.setCommand(new LoginCommand(input, bank));
+                            invoker.execute();
+                            if (bank.isLogged()) {
+                                state = AppStates.LOGGED;
+                            }
                             break;
                         case "0":
                             input.close();
@@ -45,19 +50,6 @@ public class App {
             }
         }
     }
-
-    //    private static Account login(Scanner input, HashMap<String, Account> accounts,
-    //                                 CardValidator validator) {
-    //        System.out.println("Enter your card number:");
-    //        var cardNumber = input.nextLine();
-    //        System.out.println("Enter your PIN");
-    //        var cardPin = input.nextLine();
-    //        if (validator.validate(cardNumber, cardPin)) {
-    //            return accounts.get(cardNumber);
-    //        } else {
-    //            return null;
-    //        }
-    //    }
 
     private static String getMenuText(AppStates state) {
         String menu;
