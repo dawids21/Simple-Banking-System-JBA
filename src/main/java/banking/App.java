@@ -32,8 +32,8 @@ public class App {
                             }
                             break;
                         case "0":
-                            input.close();
-                            System.exit(0);
+                            invoker.setCommand(new ExitCommand(input));
+                            invoker.execute();
                     }
                     break;
                 case LOGGED:
@@ -49,8 +49,8 @@ public class App {
                             state = AppStates.MENU;
                             break;
                         case "0":
-                            input.close();
-                            System.exit(0);
+                            invoker.setCommand(new ExitCommand(input));
+                            invoker.execute();
                     }
                     break;
             }
