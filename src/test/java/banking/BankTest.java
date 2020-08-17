@@ -28,29 +28,28 @@ class BankTest {
         private static final String IIN = "400000";
         private static final String PIN = "1234";
         Bank bank;
-        int accountID;
+        int accountId;
 
         @BeforeEach
         void setUp() {
             bank = new Bank(new BankTest.TestCardGenerator(IIN, PIN));
-            accountID = bank.createAccount();
+            accountId = bank.createAccount();
         }
 
         @Test
         void creates_new_account() {
-            assertThrows(IllegalArgumentException.class,
-                         () -> bank.getAccount(accountID));
+            assertNotNull(bank.getAccount(accountId));
         }
 
         @Test
         void new_account_has_balance_zero() {
-            assertEquals(0, bank.getAccount(accountID)
+            assertEquals(0, bank.getAccount(accountId)
                                 .getBalance());
         }
 
         @Test
         void new_card_is_generated_when_creating_new_account() {
-            assertNotNull(bank.getCard(accountID));
+            assertNotNull(bank.getCard(accountId));
         }
     }
 
@@ -124,19 +123,20 @@ class BankTest {
 
     static class logout {
 
-        private static final String NUMBER = "1234567890123456";
+        private static final String IIN = "400000";
         private static final String PIN = "1234";
         Bank bank;
+        int accountId;
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(new BankTest.TestCardGenerator(NUMBER, PIN));
-            bank.createAccount();
+            bank = new Bank(new BankTest.TestCardGenerator(IIN, PIN));
+            accountId = bank.createAccount();
         }
 
         @Test
         void returns_true_after_successful_logout() {
-            bank.login(NUMBER, PIN);
+            bank.login(IIN + String.format("%09d", accountId) + "0", "2222");
 
             assertTrue(bank.logout());
             assertFalse(bank.isLogged());
@@ -149,7 +149,7 @@ class BankTest {
 
         @Test
         void sets_logged_account_to_null() {
-            bank.login(NUMBER, PIN);
+            bank.login(IIN + String.format("%09d", accountId) + "0", "2222");
             bank.logout();
             assertNull(bank.getLoggedAccount());
         }
