@@ -1,5 +1,5 @@
 package banking;
 
 public interface CardGenerator {
-    Card generate();
+    Card generate(int accountId);
 }

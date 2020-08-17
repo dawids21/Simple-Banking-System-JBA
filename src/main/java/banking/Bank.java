@@ -1,23 +1,33 @@
 package banking;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class Bank {
 
+    private final CardGenerator cardGenerator;
+    private final ArrayList<Account> accounts;
+    private final HashSet<Card> cards;
+    private Account loggedAccount;
+
     public Bank(CardGenerator cardGenerator) {
-        //TODO implement Bank
-        throw new UnsupportedOperationException("Not implemented yet");
+        this.cardGenerator = cardGenerator;
+        accounts = new ArrayList<>();
+        cards = new HashSet<>();
+        loggedAccount = null;
     }
 
-    public String createAccount() {
+    public int createAccount() {
         //TODO implement createAccount
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    public Account getAccount(String accountID) {
+    public Account getAccount(int accountID) {
         //TODO implement getAccount
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    public Card getCard(String accountID) {
+    public Card getCard(int accountID) {
         //TODO implement getCard
         throw new UnsupportedOperationException("Not implemented yet");
     }

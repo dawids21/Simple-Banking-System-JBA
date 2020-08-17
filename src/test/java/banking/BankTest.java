@@ -9,30 +9,30 @@ class BankTest {
 
     static class TestCardGenerator implements CardGenerator {
 
-        private final String cardNumber;
+        private final String cardIin;
         private final String cardPin;
 
-        public TestCardGenerator(String cardNumber, String cardPin) {
-            this.cardNumber = cardNumber;
+        public TestCardGenerator(String cardIin, String cardPin) {
+            this.cardIin = cardIin;
             this.cardPin = cardPin;
         }
 
         @Override
-        public Card generate() {
-            return new Card(cardNumber, cardPin);
+        public Card generate(int accountId) {
+            return new Card(cardIin + String.format("%09d", accountId) + "0", cardPin);
         }
     }
 
     static class create_account {
 
-        private static final String NUMBER = "1234567890123456";
+        private static final String IIN = "400000";
         private static final String PIN = "1234";
         Bank bank;
-        String accountID;
+        int accountID;
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(new BankTest.TestCardGenerator(NUMBER, PIN));
+            bank = new Bank(new BankTest.TestCardGenerator(IIN, PIN));
             accountID = bank.createAccount();
         }
 
@@ -56,19 +56,20 @@ class BankTest {
 
     static class login {
 
-        private static final String NUMBER = "1234567890123456";
+        private static final String IIN = "400000";
         private static final String PIN = "1234";
         Bank bank;
+        int accountId;
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(new BankTest.TestCardGenerator(NUMBER, PIN));
-            bank.createAccount();
+            bank = new Bank(new BankTest.TestCardGenerator(IIN, PIN));
+            accountId = bank.createAccount();
         }
 
         @Test
         void returns_true_when_successfully_logged_in() {
-            assertTrue(bank.login(NUMBER, PIN));
+            assertTrue(bank.login(IIN + String.format("%09d", accountId) + "0", PIN));
             assertTrue(bank.isLogged());
         }
 
@@ -80,26 +81,27 @@ class BankTest {
 
         @Test
         void returns_false_when_pin_is_not_correct() {
-            assertFalse(bank.login(NUMBER, "0000"));
+            assertFalse(bank.login(IIN + String.format("%09d", accountId) + "0", "0000"));
             assertFalse(bank.isLogged());
         }
     }
 
     static class get_logged_account {
 
-        private static final String NUMBER = "1234567890123456";
+        private static final String IIN = "400000";
         private static final String PIN = "1234";
         Bank bank;
+        int accountId;
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(new BankTest.TestCardGenerator(NUMBER, PIN));
-            bank.createAccount();
+            bank = new Bank(new BankTest.TestCardGenerator(IIN, PIN));
+            accountId = bank.createAccount();
         }
 
         @Test
         void returns_logged_account_after_successful_login() {
-            bank.login(NUMBER, PIN);
+            bank.login(IIN + String.format("%09d", accountId) + "0", PIN);
 
             var loggedAccount = bank.getLoggedAccount();
             assertNotNull(loggedAccount);
@@ -107,7 +109,7 @@ class BankTest {
 
         @Test
         void returns_null_after_unsuccessful_login() {
-            bank.login(NUMBER, "2222");
+            bank.login(IIN + String.format("%09d", accountId) + "0", "2222");
 
             var loggedAccount = bank.getLoggedAccount();
             assertNull(loggedAccount);
@@ -121,6 +123,7 @@ class BankTest {
     }
 
     static class logout {
+
         private static final String NUMBER = "1234567890123456";
         private static final String PIN = "1234";
         Bank bank;
