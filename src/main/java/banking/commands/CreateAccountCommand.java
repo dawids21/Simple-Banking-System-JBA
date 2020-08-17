@@ -1,4 +1,6 @@
-package banking;
+package banking.commands;
+
+import banking.Bank;
 
 public class CreateAccountCommand implements Command {
 

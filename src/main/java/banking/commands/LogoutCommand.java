@@ -1,4 +1,6 @@
-package banking;
+package banking.commands;
+
+import banking.Bank;
 
 public class LogoutCommand implements Command {
 

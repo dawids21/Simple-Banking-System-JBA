@@ -1,4 +1,6 @@
-package banking;
+package banking.commands;
+
+import banking.Account;
 
 public class BalanceCommand implements Command {
 

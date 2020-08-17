@@ -1,5 +1,7 @@
 package banking;
 
+import banking.commands.*;
+
 import java.util.Scanner;
 
 public class Main {
