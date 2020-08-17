@@ -34,6 +34,7 @@ public class App {
                         case "0":
                             invoker.setCommand(new ExitCommand(input));
                             invoker.execute();
+                            System.exit(0);
                     }
                     break;
                 case LOGGED:
@@ -51,6 +52,7 @@ public class App {
                         case "0":
                             invoker.setCommand(new ExitCommand(input));
                             invoker.execute();
+                            System.exit(0);
                     }
                     break;
             }

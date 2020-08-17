@@ -15,6 +15,5 @@ public class ExitCommand implements Command {
         System.out.println();
         input.close();
         System.out.println("Bye!");
-        System.exit(0);
     }
 }
