@@ -2,7 +2,7 @@ package banking;
 
 import java.util.Scanner;
 
-public class App {
+public class Main {
 
     private static final String IIN = "400000";
 
