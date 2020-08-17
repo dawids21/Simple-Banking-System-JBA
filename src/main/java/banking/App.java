@@ -41,6 +41,8 @@ public class App {
                         case "1":
                             break;
                         case "2":
+                            bank.logout();
+                            state = AppStates.MENU;
                             break;
                         case "0":
                             input.close();
