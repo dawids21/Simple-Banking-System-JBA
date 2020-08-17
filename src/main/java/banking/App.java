@@ -39,6 +39,9 @@ public class App {
                 case LOGGED:
                     switch (inputLine) {
                         case "1":
+                            invoker.setCommand(
+                                     new BalanceCommand(bank.getLoggedAccount()));
+                            invoker.execute();
                             break;
                         case "2":
                             invoker.setCommand(new LogoutCommand(bank));
