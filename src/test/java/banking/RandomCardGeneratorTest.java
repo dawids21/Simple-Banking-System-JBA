@@ -59,4 +59,23 @@ class RandomCardGeneratorTest {
         assertEquals(4, card.getPin()
                             .length());
     }
+
+    @Test
+    void generated_card_has_correct_checksum() {
+        var sum = 0;
+        for (int i = 0; i < card.getNumber()
+                                .length(); i++) {
+            int digit = card.getNumber()
+                            .charAt(i) - '0';
+            if (i % 2 == 0) {
+                digit *= 2;
+            }
+            if (digit > 10) {
+                digit -= 9;
+            }
+            sum += digit;
+        }
+
+        assertEquals(0, sum % 10);
+    }
 }
