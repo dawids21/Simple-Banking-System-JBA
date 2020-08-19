@@ -6,9 +6,9 @@ public class LuhnChecksumGenerator {
 
     public LuhnChecksumGenerator(String number) {
 
-        if (number.length() != 15 || !number.chars()
-                                            .allMatch(Character::isDigit)) {
-            throw new IllegalArgumentException("Number must have 15 digits");
+        if (!number.chars()
+                   .allMatch(Character::isDigit)) {
+            throw new IllegalArgumentException("Number can have only digits");
         }
         this.number = number;
     }
