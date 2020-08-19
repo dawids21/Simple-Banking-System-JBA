@@ -11,7 +11,7 @@ class LuhnChecksumGeneratorTest {
     void throws_exception_if_card_number_has_not_only_digits() {
 
         assertThrows(IllegalArgumentException.class,
-                     () -> new LuhnChecksumGenerator("21wqe21987d289f78");
+                     () -> new LuhnChecksumGenerator("21wqe21987d289f78"));
     }
 
     @Test
