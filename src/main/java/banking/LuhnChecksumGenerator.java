@@ -20,12 +20,12 @@ public class LuhnChecksumGenerator {
             if (i % 2 == 0) {
                 digit *= 2;
             }
-            if (digit > 10) {
+            if (digit >= 10) {
                 digit -= 9;
             }
             sum += digit;
         }
 
-        return sum % 10 == 0 ? 0 : 10 - (sum % 10);
+        return (10 - (sum % 10)) % 10;
     }
 }
