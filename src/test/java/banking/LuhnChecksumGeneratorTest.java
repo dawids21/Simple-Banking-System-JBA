@@ -21,4 +21,11 @@ class LuhnChecksumGeneratorTest {
 
         assertEquals(3, luhnChecksumGenerator.generate());
     }
+
+    @Test
+    void returns_0_when_sum_is_divisible_by_10() {
+        var luhnChecksumGenerator = new LuhnChecksumGenerator("400000345009030");
+
+        assertEquals(0, luhnChecksumGenerator.generate());
+    }
 }
