@@ -26,6 +26,6 @@ public class LuhnChecksumGenerator {
             sum += digit;
         }
 
-        return 10 - (sum % 10);
+        return sum % 10 == 0 ? 0 : 10 - (sum % 10);
     }
 }
