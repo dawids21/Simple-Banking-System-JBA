@@ -26,8 +26,8 @@ public class AccountsDatabase {
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement()) {
             var result = statement.executeQuery("SELECT MAX(id) AS max_id FROM accounts");
-            int nextId = result.next() ? result.getInt("max_id") : 0;
-            if (nextId != 0) {
+            int nextId = result.next() ? result.getInt("max_id") + 1 : 1;
+            if (nextId > 0) {
                 var card = generator.generate(nextId);
                 statement.executeUpdate("INSERT INTO accounts (number, pin) VALUES ('" +
                                         card.getNumber() + "', '" + card.getPin() +
@@ -45,7 +45,7 @@ public class AccountsDatabase {
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement();
                  var result = statement.executeQuery(
-                          "SELECT * FROM accounts WHERE id = ;" + id)) {
+                          "SELECT * FROM accounts WHERE id = " + id + ";")) {
             while (result.next()) {
                 acc = new Account(id, new Card(result.getString("number"),
                                                result.getString("pin")),
@@ -62,7 +62,7 @@ public class AccountsDatabase {
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement();
                  var result = statement.executeQuery(
-                          "SELECT * FROM accounts WHERE number = ;" + number)) {
+                          "SELECT * FROM accounts WHERE number = " + number + ";")) {
             while (result.next()) {
                 acc = new Account(result.getInt("id"),
                                   new Card(result.getString("number"),
