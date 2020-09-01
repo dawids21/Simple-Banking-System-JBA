@@ -57,13 +57,26 @@ public class AccountsDatabase {
         return acc;
     }
 
-    public void update(int id, Account data) {
-        //TODO implement update
-        throw new UnsupportedOperationException("Not implemented yet");
+    public Account getByNumber(String number) {
+        Account acc = null;
+        try (var conn = DriverManager.getConnection(sqlUrl);
+                 var statement = conn.createStatement();
+                 var result = statement.executeQuery(
+                          "SELECT * FROM accounts WHERE number = ;" + number)) {
+            while (result.next()) {
+                acc = new Account(result.getInt("id"),
+                                  new Card(result.getString("number"),
+                                           result.getString("pin")),
+                                  result.getInt("balance"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return acc;
     }
 
-    public Account getByNumber(String number) {
-        //TODO implement getByNumber
+    public void update(int id, Account data) {
+        //TODO implement update
         throw new UnsupportedOperationException("Not implemented yet");
     }
 }
