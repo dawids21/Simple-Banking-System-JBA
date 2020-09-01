@@ -30,7 +30,7 @@ class BankTest {
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN));
+            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN), null);
             accountId = bank.createAccount();
         }
 
@@ -60,7 +60,7 @@ class BankTest {
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN));
+            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN), null);
             accountId = bank.createAccount();
         }
 
@@ -98,7 +98,7 @@ class BankTest {
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN));
+            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN), null);
             accountId = bank.createAccount();
         }
 
@@ -134,7 +134,7 @@ class BankTest {
 
         @BeforeEach
         void setUp() {
-            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN));
+            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN), null);
             accountId = bank.createAccount();
         }
 

@@ -2,6 +2,9 @@ package banking;
 
 import banking.commands.*;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
@@ -12,7 +15,18 @@ public class Main {
         var state = AppStates.MENU;
         final var input = new Scanner(System.in);
         final var invoker = new CommandInvoker();
-        final var bank = new Bank(IIN, new RandomCardGenerator());
+
+        Connection dbConnection = null;
+        if (args.length == 2 && args[0].equals("-fileName")) {
+            try {
+                dbConnection = DriverManager.getConnection("jdbc:sqlite:" + args[1]);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                dbConnection = null;
+            }
+        }
+
+        final var bank = new Bank(IIN, new RandomCardGenerator(), dbConnection);
 
         while (true) {
             System.out.println(getMenuText(state));
@@ -54,6 +68,13 @@ public class Main {
                         case "0":
                             invoker.setCommand(new ExitCommand(input));
                             invoker.execute();
+                            if (dbConnection != null) {
+                                try {
+                                    dbConnection.close();
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                            }
                             System.exit(0);
                     }
                     break;
