@@ -11,25 +11,33 @@ public class AccountsDatabase {
         this.sqlUrl = sqlUrl;
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement()) {
-            statement.executeUpdate(
-                     "CREATE TABLE IF NOT EXISTS accounts (\n" + "    id INTEGER,\n" +
-                     "    number TEXT,\n" + "    pin TEXT,\n" +
-                     "    balance INTEGER DEFAULT 0\n" + ");\n");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS accounts (\n" +
+                                    "    id INTEGER PRIMARY KEY,\n" +
+                                    "    number TEXT,\n" + "    pin TEXT,\n" +
+                                    "    balance INTEGER DEFAULT 0\n" + ");\n");
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public void add(String number, String pin) {
+    public Account add(CardGenerator generator) {
+        Account acc = null;
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement()) {
-            statement.executeUpdate(
-                     "INSERT INTO accounts (number, pin) VALUES ('" + number + "', '" +
-                     pin + "');");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            var result = statement.executeQuery("SELECT MAX(id) AS max_id FROM accounts");
+            int nextId = result.next() ? result.getInt("max_id") : 0;
+            if (nextId != 0) {
+                var card = generator.generate(nextId);
+                statement.executeUpdate("INSERT INTO accounts (number, pin) VALUES ('" +
+                                        card.getNumber() + "', '" + card.getPin() +
+                                        "');");
+                acc = new Account(nextId, card);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return acc;
     }
 
     public Account getById(int id) {
@@ -43,8 +51,8 @@ public class AccountsDatabase {
                                                result.getString("pin")),
                                   result.getInt("balance"));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return acc;
     }
