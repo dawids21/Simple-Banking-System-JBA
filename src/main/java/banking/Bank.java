@@ -21,7 +21,7 @@ public class Bank {
 
     public int createAccount() {
         int accountId = accounts.size();
-        accounts.add(new Account(cardGenerator.generate(iin, accountId)));
+        accounts.add(new Account(accountId, cardGenerator.generate(iin, accountId)));
         return accountId;
     }
 
