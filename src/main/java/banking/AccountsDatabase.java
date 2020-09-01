@@ -89,4 +89,14 @@ public class AccountsDatabase {
             e.printStackTrace();
         }
     }
+
+    public void clear() {
+        try (var conn = DriverManager.getConnection(sqlUrl);
+                 var statement = conn.createStatement()) {
+            statement.executeUpdate("DROP TABLE accounts");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
