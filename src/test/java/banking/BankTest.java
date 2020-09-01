@@ -1,6 +1,8 @@
 package banking;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,30 +11,41 @@ class BankTest {
 
     static class TestCardGenerator implements CardGenerator {
 
+        private final String iin;
         private final String cardPin;
 
-        public TestCardGenerator(String cardPin) {
+        public TestCardGenerator(String iin, String cardPin) {
+            this.iin = iin;
             this.cardPin = cardPin;
         }
 
         @Override
-        public Card generate(String iin, int accountId) {
+        public Card generate(int accountId) {
             return new Card(iin + String.format("%09d", accountId) + "0", cardPin);
         }
     }
 
-    static class create_account {
+    private static final String IIN = "400000";
+    private static final String PIN = "1234";
+    Bank bank;
+    int accountId;
+    AccountsDatabase db;
 
-        private static final String IIN = "400000";
-        private static final String PIN = "1234";
-        Bank bank;
-        int accountId;
+    @BeforeEach
+    void setUp() {
+        db = new AccountsDatabase("jdbc:sqlite:test.db");
+        bank = new Bank(IIN, new BankTest.TestCardGenerator(IIN, PIN), db);
+        accountId = bank.createAccount()
+                        .getId();
+    }
 
-        @BeforeEach
-        void setUp() {
-            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN), null);
-            accountId = bank.createAccount();
-        }
+    @AfterEach
+    void tearDown() {
+        db.clear();
+    }
+
+    @Nested
+    class create_account {
 
         @Test
         void creates_new_account() {
@@ -51,18 +64,8 @@ class BankTest {
         }
     }
 
-    static class login {
-
-        private static final String IIN = "400000";
-        private static final String PIN = "1234";
-        Bank bank;
-        int accountId;
-
-        @BeforeEach
-        void setUp() {
-            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN), null);
-            accountId = bank.createAccount();
-        }
+    @Nested
+    class login {
 
         @Test
         void returns_true_when_successfully_logged_in() {
@@ -89,18 +92,8 @@ class BankTest {
         }
     }
 
-    static class get_logged_account {
-
-        private static final String IIN = "400000";
-        private static final String PIN = "1234";
-        Bank bank;
-        int accountId;
-
-        @BeforeEach
-        void setUp() {
-            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN), null);
-            accountId = bank.createAccount();
-        }
+    @Nested
+    class get_logged_account {
 
         @Test
         void returns_logged_account_after_successful_login() {
@@ -125,18 +118,8 @@ class BankTest {
         }
     }
 
-    static class logout {
-
-        private static final String IIN = "400000";
-        private static final String PIN = "1234";
-        Bank bank;
-        int accountId;
-
-        @BeforeEach
-        void setUp() {
-            bank = new Bank(IIN, new BankTest.TestCardGenerator(PIN), null);
-            accountId = bank.createAccount();
-        }
+    @Nested
+    class logout {
 
         @Test
         void returns_true_after_successful_logout() {

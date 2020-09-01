@@ -11,11 +11,9 @@ class RandomCardGeneratorTest {
     private static final int ACCOUNT_ID = 0;
     Card card;
 
-    private RandomCardGenerator randomCardGenerator;
-
     @BeforeEach
     void setUp() {
-        card = new RandomCardGenerator(IIN).generate(IIN, ACCOUNT_ID);
+        card = new RandomCardGenerator(IIN).generate(ACCOUNT_ID);
     }
 
     @Test
@@ -43,7 +41,7 @@ class RandomCardGeneratorTest {
 
     @Test
     void two_generated_cards_should_be_unique() {
-        var anotherCard = new RandomCardGenerator(IIN).generate(IIN, ACCOUNT_ID + 1);
+        var anotherCard = new RandomCardGenerator(IIN).generate(ACCOUNT_ID + 1);
 
         assertNotEquals(card, anotherCard);
     }
