@@ -35,7 +35,7 @@ public class Bank {
 
         var account = accountsDatabase.getByNumber(cardNumber);
 
-        if (account.getCard()
+        if (account != null && account.getCard()
                    .getPin()
                    .equals(cardPin)) {
             loggedAccount = account;
