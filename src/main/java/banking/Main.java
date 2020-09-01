@@ -13,9 +13,11 @@ public class Main {
         final var input = new Scanner(System.in);
         final var invoker = new CommandInvoker();
 
-        AccountsDatabase db = null;
+        AccountsDatabase db;
         if (args.length == 2 && args[0].equals("-fileName")) {
             db = new AccountsDatabase("jdbc:sqlite:" + args[1]);
+        } else {
+            db = new AccountsDatabase("jdbc:sqlite:noname.db" + args[1]);
         }
 
         final var bank = new Bank(IIN, new RandomCardGenerator(IIN), db);
