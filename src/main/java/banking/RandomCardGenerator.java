@@ -8,11 +8,12 @@ public class RandomCardGenerator implements CardGenerator {
     }
 
     @Override
-    public Card generate(String iin, int accountId) {
-        var strAccountId = String.format("%09d", accountId);
-        var checksum = new LuhnChecksumGenerator(iin + strAccountId).generate();
-        var pin = String.format("%04d", new Random().nextInt(10000));
+    public Card generate(String iin) {
+        var random = new Random();
+        var number = String.format("%09d", random.nextInt(1000000000));
+        var checksum = new LuhnChecksumGenerator(iin + number).generate();
+        var pin = String.format("%04d", random.nextInt(10000));
 
-        return new Card(iin, strAccountId, String.valueOf(checksum), pin);
+        return new Card(iin + number + checksum, pin);
     }
 }
