@@ -75,8 +75,18 @@ public class AccountsDatabase {
         return acc;
     }
 
-    public void update(int id, Account data) {
-        //TODO implement update
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void update(Account data) {
+        try (var conn = DriverManager.getConnection(sqlUrl);
+                 var statement = conn.createStatement()) {
+            statement.executeUpdate("UPDATE tab SET number = '" + data.getCard()
+                                                                      .getNumber() +
+                                    "', pin = '" + data.getCard()
+                                                       .getPin() + "', balance = " +
+                                    data.getBalance() + " WHERE id = " + data.getId() +
+                                    "; ");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
