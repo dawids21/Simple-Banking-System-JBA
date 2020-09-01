@@ -11,7 +11,7 @@ public class AccountsDatabase {
         this.sqlUrl = sqlUrl;
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement()) {
-            statement.execute(
+            statement.executeUpdate(
                      "CREATE TABLE IF NOT EXISTS accounts (\n" + "    id INTEGER,\n" +
                      "    number TEXT,\n" + "    pin TEXT,\n" +
                      "    balance INTEGER DEFAULT 0\n" + ");\n");
@@ -22,8 +22,16 @@ public class AccountsDatabase {
     }
 
     public void add(Account account) {
-        //TODO implement add
-        throw new UnsupportedOperationException("Not implemented yet");
+        try (var conn = DriverManager.getConnection(sqlUrl);
+                 var statement = conn.createStatement()) {
+            statement.executeUpdate("INSERT INTO accounts (number, pin) VALUES ('" +
+                                    account.getCard()
+                                           .getNumber() + "', '" + account.getCard()
+                                                                          .getPin() +
+                                    "');");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void getById(int id) {
