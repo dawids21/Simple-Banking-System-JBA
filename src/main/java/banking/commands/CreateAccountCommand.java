@@ -12,8 +12,7 @@ public class CreateAccountCommand implements Command {
 
     @Override
     public void execute() {
-        var id = bank.createAccount();
-        var card = bank.getCard(id);
+        var card = bank.createAccount().getCard();
         System.out.println("Your card has been created");
         System.out.println("Your card number:");
         System.out.println(card.getNumber());
