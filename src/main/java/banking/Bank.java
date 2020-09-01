@@ -15,9 +15,8 @@ public class Bank {
         this.accountsDatabase = accountsDatabase;
     }
 
-    public void createAccount() {
-        var card = cardGenerator.generate();
-        accountsDatabase.add(card.getNumber(), card.getPin());
+    public Account createAccount() {
+        return accountsDatabase.add(cardGenerator);
     }
 
     public Account getAccount(int accountId) {
