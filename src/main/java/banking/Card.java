@@ -4,29 +4,16 @@ import java.util.Objects;
 
 public class Card {
 
-    private final String iin;
-    private final String accountId;
-    private final String checksum;
+    private final String number;
     private final String pin;
 
     public Card(String number, String pin) {
-        this(number.substring(0, 6), number.substring(6, number.length() - 1),
-             number.substring(number.length() - 1), pin);
-    }
-
-    public Card(String iin, String accountId, String checksum, String pin) {
-        this.iin = iin;
-        this.accountId = accountId;
-        this.checksum = checksum;
+        this.number = number;
         this.pin = pin;
     }
 
     public String getNumber() {
-        return iin + accountId + checksum;
-    }
-
-    public String getAccountID() {
-        return accountId;
+        return number;
     }
 
     public String getPin() {
@@ -42,19 +29,17 @@ public class Card {
             return false;
         }
         Card card = (Card) o;
-        return Objects.equals(iin, card.iin) &&
-               Objects.equals(accountId, card.accountId) &&
-               Objects.equals(checksum, card.checksum) &&
+        return Objects.equals(getNumber(), card.getNumber()) &&
                Objects.equals(getPin(), card.getPin());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(iin, accountId, checksum, getPin());
+        return Objects.hash(getNumber(), getPin());
     }
 
     @Override
     public String toString() {
-        return "Card{" + "number='" + getNumber() + '\'' + ", pin='" + pin + '\'' + '}';
+        return "Card{" + "number='" + number + '\'' + ", pin='" + pin + '\'' + '}';
     }
 }
