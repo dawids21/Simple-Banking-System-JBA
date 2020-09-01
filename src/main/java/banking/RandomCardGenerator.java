@@ -4,11 +4,14 @@ import java.util.Random;
 
 public class RandomCardGenerator implements CardGenerator {
 
-    public RandomCardGenerator() {
+    private final String iin;
+
+    public RandomCardGenerator(String iin) {
+        this.iin = iin;
     }
 
     @Override
-    public Card generate(String iin) {
+    public Card generate() {
         var random = new Random();
         var number = String.format("%09d", random.nextInt(1000000000));
         var checksum = new LuhnChecksumGenerator(iin + number).generate();
