@@ -1,6 +1,5 @@
 package banking;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 public class Bank {
@@ -9,14 +8,15 @@ public class Bank {
     private final CardGenerator cardGenerator;
     private final ArrayList<Account> accounts;
     private Account loggedAccount;
-    private final Connection dbConnection;
+    private final AccountsDatabase accountsDatabase;
 
-    public Bank(String iin, CardGenerator cardGenerator, Connection dbConnection) {
+    public Bank(String iin, CardGenerator cardGenerator,
+                AccountsDatabase accountsDatabase) {
         this.iin = iin;
         this.cardGenerator = cardGenerator;
         accounts = new ArrayList<>();
         loggedAccount = null;
-        this.dbConnection = dbConnection;
+        this.accountsDatabase = accountsDatabase;
     }
 
     public int createAccount() {
