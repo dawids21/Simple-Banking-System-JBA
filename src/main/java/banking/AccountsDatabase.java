@@ -21,14 +21,12 @@ public class AccountsDatabase {
         }
     }
 
-    public void add(Account account) {
+    public void add(String number, String pin) {
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement()) {
-            statement.executeUpdate("INSERT INTO accounts (number, pin) VALUES ('" +
-                                    account.getCard()
-                                           .getNumber() + "', '" + account.getCard()
-                                                                          .getPin() +
-                                    "');");
+            statement.executeUpdate(
+                     "INSERT INTO accounts (number, pin) VALUES ('" + number + "', '" +
+                     pin + "');");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -41,9 +39,9 @@ public class AccountsDatabase {
                  var result = statement.executeQuery(
                           "SELECT * FROM accounts WHERE id = ;" + id)) {
             while (result.next()) {
-                acc = new Account(
-                         new Card(result.getString("number"), result.getString("pin")),
-                         result.getInt("balance"));
+                acc = new Account(id, new Card(result.getString("number"),
+                                               result.getString("pin")),
+                                  result.getInt("balance"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -53,6 +51,11 @@ public class AccountsDatabase {
 
     public void update(int id, Account data) {
         //TODO implement update
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    public Account getByNumber(String number) {
+        //TODO implement getByNumber
         throw new UnsupportedOperationException("Not implemented yet");
     }
 }
