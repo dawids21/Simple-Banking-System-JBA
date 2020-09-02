@@ -20,12 +20,15 @@ public class Bank {
     }
 
     public Account getAccount(int accountId) {
-        return accountsDatabase.getById(accountId);
+        var account = accountsDatabase.getById(accountId);
+        if (account == null) {
+            throw new IllegalArgumentException("Wrong account id");
+        }
+        return account;
     }
 
     public Card getCard(int accountId) {
-        return accountsDatabase.getById(accountId)
-                               .getCard();
+        return getAccount(accountId).getCard();
     }
 
     public boolean login(String cardNumber, String cardPin) {
@@ -36,8 +39,8 @@ public class Bank {
         var account = accountsDatabase.getByNumber(cardNumber);
 
         if (account != null && account.getCard()
-                   .getPin()
-                   .equals(cardPin)) {
+                                      .getPin()
+                                      .equals(cardPin)) {
             loggedAccount = account;
             return true;
         }
