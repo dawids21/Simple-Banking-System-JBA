@@ -65,8 +65,8 @@ public class AccountsDatabase {
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement();
                  var result = statement.executeQuery(
-                          "SELECT * FROM " + TABLE_NAME + " WHERE number = " + number +
-                          ";")) {
+                          "SELECT * FROM " + TABLE_NAME + " WHERE number = '" + number +
+                          "';")) {
             while (result.next()) {
                 acc = new Account(result.getInt("id"),
                                   new Card(result.getString("number"),
@@ -87,10 +87,10 @@ public class AccountsDatabase {
                  var statement = conn.createStatement()) {
             var resultSet = statement.executeQuery(
                      "SELECT * FROM " + TABLE_NAME + " WHERE id = " + data.getId() +
-                     ", number = " + data.getCard()
-                                         .getNumber() + ", pin = " + data.getCard()
-                                                                         .getPin() +
-                     " LIMIT 1;");
+                     " AND number = '" + data.getCard()
+                                             .getNumber() + "' AND pin = '" +
+                     data.getCard()
+                         .getPin() + "';");
             exist = resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
