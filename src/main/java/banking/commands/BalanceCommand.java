@@ -12,7 +12,6 @@ public class BalanceCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println();
         if (account != null) {
             System.out.println("Balance: " + account.getBalance());
         } else {

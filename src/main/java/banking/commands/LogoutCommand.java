@@ -12,7 +12,6 @@ public class LogoutCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println();
         if (bank.logout()) {
             System.out.println("You have successfully logged out!");
         } else {
