@@ -122,4 +122,9 @@ public class AccountsDatabase {
             e.printStackTrace();
         }
     }
+
+    public void delete(Account data) {
+        //TODO implement delete
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }

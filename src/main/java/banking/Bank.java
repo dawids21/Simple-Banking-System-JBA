@@ -81,5 +81,7 @@ public class Bank {
         if (!accountExists(account)) {
             throw new IllegalArgumentException("Account does not exists");
         }
+
+        accountsDatabase.delete(account);
     }
 }
