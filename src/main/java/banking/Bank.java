@@ -63,4 +63,8 @@ public class Bank {
         }
         return false;
     }
+
+    public boolean doesAccountExist(Account account) {
+        return accountsDatabase.exists(account);
+    }
 }
