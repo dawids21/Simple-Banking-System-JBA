@@ -1,9 +1,6 @@
 package banking;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -139,6 +136,22 @@ class BankTest {
             bank.login(IIN + String.format("%09d", accountId) + "0", "2222");
             bank.logout();
             assertNull(bank.getLoggedAccount());
+        }
+    }
+
+    @Nested
+    class close_account {
+
+        @Test
+        @DisplayName("Deletes account from database")
+        void deletes_account_from_database() {
+            fail("Not implemented yet");
+        }
+
+        @Test
+        @DisplayName("Throws an exception if account does not exist")
+        void throw_an_exception_if_account_does_not_exist() {
+            fail("Not implemented yet");
         }
     }
 }
