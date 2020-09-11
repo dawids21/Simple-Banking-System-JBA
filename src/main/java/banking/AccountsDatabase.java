@@ -79,6 +79,25 @@ public class AccountsDatabase {
         return acc;
     }
 
+    public boolean exists(Account data) {
+
+        var exist = false;
+
+        try (var conn = DriverManager.getConnection(sqlUrl);
+                 var statement = conn.createStatement()) {
+            var resultSet = statement.executeQuery(
+                     "SELECT * FROM " + TABLE_NAME + " WHERE id = " + data.getId() +
+                     ", number = " + data.getCard()
+                                         .getNumber() + ", pin = " + data.getCard()
+                                                                         .getPin() +
+                     " LIMIT 1;");
+            exist = resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return exist;
+    }
+
     public void update(Account data) {
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement()) {
