@@ -1,5 +1,6 @@
 package banking;
 
+import banking.exceptions.AccountNotFoundException;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -144,7 +145,7 @@ class BankTest {
 
         @Test
         @DisplayName("Deletes account from database")
-        void deletes_account_from_database() {
+        void deletes_account_from_database() throws AccountNotFoundException {
             var account = bank.getAccount(accountId);
             bank.closeAccount(account);
             assertFalse(bank.accountExists(account));
@@ -155,7 +156,7 @@ class BankTest {
         void throw_an_exception_if_account_does_not_exist() {
             var account = new Account(123, new TestCardGenerator(IIN, PIN).generate(123));
 
-            assertThrows(IllegalArgumentException.class,
+            assertThrows(AccountNotFoundException.class,
                          () -> bank.closeAccount(account));
         }
     }

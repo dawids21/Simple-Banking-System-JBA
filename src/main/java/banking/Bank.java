@@ -1,5 +1,7 @@
 package banking;
 
+import banking.exceptions.AccountNotFoundException;
+
 import java.sql.SQLException;
 
 public class Bank {
@@ -79,9 +81,9 @@ public class Bank {
         return success;
     }
 
-    public boolean closeAccount(Account account) throws IllegalArgumentException {
+    public boolean closeAccount(Account account) throws AccountNotFoundException {
         if (!accountExists(account)) {
-            throw new IllegalArgumentException("Account does not exists");
+            throw new AccountNotFoundException("Account does not exists");
         }
 
         try {
