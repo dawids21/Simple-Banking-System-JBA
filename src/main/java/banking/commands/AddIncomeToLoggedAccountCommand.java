@@ -16,13 +16,11 @@ public class AddIncomeToLoggedAccountCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println();
         System.out.println("Enter income:");
         var amount = input.nextInt();
         var account = bank.getLoggedAccount();
         account.setBalance(account.getBalance() + amount);
         var success = bank.updateAccount(account);
         System.out.println(success ? "Income was added!" : "Error while adding income");
-        System.out.println();
     }
 }

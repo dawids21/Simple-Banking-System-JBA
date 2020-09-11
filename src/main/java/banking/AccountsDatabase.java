@@ -101,12 +101,12 @@ public class AccountsDatabase {
     public void update(Account data) {
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement()) {
-            statement.executeUpdate("UPDATE " + TABLE_NAME + "number = '" + data.getCard()
-                                                                                .getNumber() +
-                                    "', pin = '" + data.getCard()
-                                                       .getPin() + "', balance = " +
-                                    data.getBalance() + " WHERE id = " + data.getId() +
-                                    "; ");
+            statement.executeUpdate("UPDATE " + TABLE_NAME + " SET number = '" +
+                                    data.getCard()
+                                        .getNumber() + "', pin = '" + data.getCard()
+                                                                          .getPin() +
+                                    "', balance = " + data.getBalance() + " WHERE id = " +
+                                    data.getId() + "; ");
 
         } catch (SQLException e) {
             e.printStackTrace();
