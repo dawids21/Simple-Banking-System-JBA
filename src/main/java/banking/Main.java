@@ -55,6 +55,9 @@ public class Main {
                             invoker.execute();
                             break;
                         case "2":
+                            invoker.setCommand(
+                                     new AddIncomeToLoggedAccountCommand(input, bank));
+                            invoker.execute();
                             break;
                         case "5":
                             invoker.setCommand(new LogoutCommand(bank));
