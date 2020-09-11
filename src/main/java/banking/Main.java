@@ -55,6 +55,8 @@ public class Main {
                             invoker.execute();
                             break;
                         case "2":
+                            break;
+                        case "5":
                             invoker.setCommand(new LogoutCommand(bank));
                             invoker.execute();
                             state = AppStates.MENU;
@@ -77,7 +79,7 @@ public class Main {
                 menu = "1. Create an account\n2. Log into account\n0. Exit";
                 break;
             case LOGGED:
-                menu = "1. Balance\n2. Log out\n0. Exit";
+                menu = "1. Balance\n2. Add income\n5. Log out\n0. Exit";
                 break;
             default:
                 menu = "";
