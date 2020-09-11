@@ -17,7 +17,7 @@ public class Main {
         if (args.length == 2 && args[0].equals("-fileName")) {
             db = new AccountsDatabase("jdbc:sqlite:" + args[1]);
         } else {
-            db = new AccountsDatabase("jdbc:sqlite:noname.db" + args[1]);
+            db = new AccountsDatabase("jdbc:sqlite:noname.db");
         }
 
         final var bank = new Bank(IIN, new RandomCardGenerator(IIN), db);
