@@ -59,6 +59,11 @@ public class Main {
                                      new AddIncomeToLoggedAccountCommand(input, bank));
                             invoker.execute();
                             break;
+                        case "4":
+                            invoker.setCommand(new CloseLoggedAccountCommand(bank));
+                            invoker.execute();
+                            state = AppStates.MENU;
+                            break;
                         case "5":
                             invoker.setCommand(new LogoutCommand(bank));
                             invoker.execute();
