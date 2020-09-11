@@ -78,7 +78,8 @@ public class Bank {
     }
 
     public void closeAccount(Account account) {
-        //TODO implement closeAccount
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (!accountExists(account)) {
+            throw new IllegalArgumentException("Account does not exists");
+        }
     }
 }
