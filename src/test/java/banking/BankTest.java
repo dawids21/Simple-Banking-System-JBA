@@ -27,9 +27,9 @@ class BankTest {
 
     private static final String IIN = "400000";
     private static final String PIN = "1234";
-    Bank bank;
-    int accountId;
-    AccountsDatabase db;
+    private Bank bank;
+    private int accountId;
+    private AccountsDatabase db;
 
     @BeforeEach
     void setUp() {
