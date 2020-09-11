@@ -67,4 +67,13 @@ public class Bank {
     public boolean accountExists(Account account) {
         return accountsDatabase.exists(account);
     }
+
+    public boolean updateAccount(Account account) {
+        var success = false;
+        if (accountExists(account)) {
+            accountsDatabase.update(account);
+            success = true;
+        }
+        return success;
+    }
 }
