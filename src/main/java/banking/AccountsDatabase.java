@@ -124,7 +124,16 @@ public class AccountsDatabase {
     }
 
     public void delete(Account data) {
-        //TODO implement delete
-        throw new UnsupportedOperationException("Not implemented yet");
+        try (var conn = DriverManager.getConnection(sqlUrl);
+                 var statement = conn.createStatement()) {
+            statement.executeUpdate(
+                     "DELETE FROM " + TABLE_NAME + " WHERE id = " + data.getId() +
+                     " AND number = '" + data.getCard()
+                                             .getNumber() + "' AND pin = '" +
+                     data.getCard()
+                         .getPin() + "';");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
