@@ -123,7 +123,7 @@ public class AccountsDatabase {
         }
     }
 
-    public void delete(Account data) {
+    public void delete(Account data) throws SQLException {
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement()) {
             statement.executeUpdate(
@@ -132,8 +132,6 @@ public class AccountsDatabase {
                                              .getNumber() + "' AND pin = '" +
                      data.getCard()
                          .getPin() + "';");
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

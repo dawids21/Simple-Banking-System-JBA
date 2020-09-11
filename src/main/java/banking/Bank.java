@@ -1,5 +1,7 @@
 package banking;
 
+import java.sql.SQLException;
+
 public class Bank {
 
     private final String iin;
@@ -77,11 +79,17 @@ public class Bank {
         return success;
     }
 
-    public void closeAccount(Account account) {
+    public boolean closeAccount(Account account) throws IllegalArgumentException {
         if (!accountExists(account)) {
             throw new IllegalArgumentException("Account does not exists");
         }
 
-        accountsDatabase.delete(account);
+        try {
+            accountsDatabase.delete(account);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }
