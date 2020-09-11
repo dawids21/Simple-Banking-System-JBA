@@ -21,6 +21,8 @@ public class CloseLoggedAccountCommand implements Command {
             success = false;
         }
         bank.logout();
-        System.out.println(success ? "The account has been closed!" : "Error while closing account");
+        System.out.println(success ? "The account has been closed!" :
+                                    "Error while closing account");
+        System.out.println();
     }
 }
