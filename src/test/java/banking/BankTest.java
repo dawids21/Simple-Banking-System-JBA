@@ -145,13 +145,18 @@ class BankTest {
         @Test
         @DisplayName("Deletes account from database")
         void deletes_account_from_database() {
-            fail("Not implemented yet");
+            var account = bank.getAccount(accountId);
+            bank.closeAccount(account);
+            assertFalse(bank.accountExists(account));
         }
 
         @Test
         @DisplayName("Throws an exception if account does not exist")
         void throw_an_exception_if_account_does_not_exist() {
-            fail("Not implemented yet");
+            var account = new Account(123, new TestCardGenerator(IIN, PIN).generate(123));
+
+            assertThrows(IllegalArgumentException.class,
+                         () -> bank.closeAccount(account));
         }
     }
 }

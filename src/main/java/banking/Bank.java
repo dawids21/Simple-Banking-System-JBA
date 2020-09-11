@@ -76,4 +76,9 @@ public class Bank {
         }
         return success;
     }
+
+    public void closeAccount(Account account) {
+        //TODO implement closeAccount
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }
