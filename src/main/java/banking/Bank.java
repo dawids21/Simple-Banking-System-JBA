@@ -98,16 +98,20 @@ public class Bank {
 
     public void transfer(Account originAccount, String destinationAccountNumber,
                          int amount) throws AccountNotFoundException, TransferException {
+        if (originAccount.getCard()
+                         .getNumber()
+                         .equals(destinationAccountNumber)) {
+            throw new TransferException("You can't transfer money to the same account!");
+        }
+        if (!new LuhnChecksumChecker(destinationAccountNumber).correct()) {
+            throw new TransferException(
+                     "Probably you made mistake in the card number. Please try again!");
+        }
         if (!cardNumberExists(destinationAccountNumber)) {
             throw new AccountNotFoundException("Such card does not exist.");
         }
         if (originAccount.getBalance() < amount) {
             throw new TransferException("Not enough money!");
-        }
-        if (originAccount.getCard()
-                         .getNumber()
-                         .equals(destinationAccountNumber)) {
-            throw new TransferException("You can't transfer money to the same account!");
         }
         throw new UnsupportedOperationException("Not implemented yet");
     }
