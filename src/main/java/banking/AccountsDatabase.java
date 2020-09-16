@@ -134,4 +134,20 @@ public class AccountsDatabase {
                          .getPin() + "';");
         }
     }
+
+    public boolean existsByNumber(String destinationAccountNumber) {
+
+        var exist = false;
+
+        try (var conn = DriverManager.getConnection(sqlUrl);
+                 var statement = conn.createStatement()) {
+            var resultSet = statement.executeQuery(
+                     "SELECT * FROM " + TABLE_NAME + " WHERE number = '" +
+                     destinationAccountNumber + "';");
+            exist = resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return exist;
+    }
 }

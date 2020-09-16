@@ -96,8 +96,14 @@ public class Bank {
     }
 
     public void transfer(Account originAccount, String destinationAccountNumber,
-                         int amount) {
-        //TODO implement transfer
+                         int amount) throws AccountNotFoundException {
+        if (!cardNumberExists(destinationAccountNumber)) {
+            throw new AccountNotFoundException("Such card does not exist.");
+        }
         throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    private boolean cardNumberExists(String destinationAccountNumber) {
+        return accountsDatabase.existsByNumber(destinationAccountNumber);
     }
 }
