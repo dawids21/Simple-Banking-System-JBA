@@ -7,12 +7,12 @@ import java.util.Scanner;
 
 public class TransferCommand implements Command {
 
-    private final Bank bank;
     private final Scanner input;
+    private final Bank bank;
 
-    public TransferCommand(Bank bank, Scanner input) {
-        this.bank = bank;
+    public TransferCommand(Scanner input, Bank bank) {
         this.input = input;
+        this.bank = bank;
     }
 
     @Override
