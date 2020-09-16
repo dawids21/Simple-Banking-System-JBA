@@ -59,6 +59,10 @@ public class Main {
                                      new AddIncomeToLoggedAccountCommand(input, bank));
                             invoker.execute();
                             break;
+                        case "3":
+                            invoker.setCommand(new TransferCommand(input, bank));
+                            invoker.execute();
+                            break;
                         case "4":
                             invoker.setCommand(new CloseLoggedAccountCommand(bank));
                             invoker.execute();
