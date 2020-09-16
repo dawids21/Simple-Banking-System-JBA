@@ -19,8 +19,12 @@ public class Bank {
         this.accountsDatabase = accountsDatabase;
     }
 
-    public Account createAccount() {
-        return accountsDatabase.add(cardGenerator);
+    public int createAccount() throws BankException {
+        var id = accountsDatabase.add(cardGenerator);
+        if (id == -1) {
+            throw new BankException("Error during account creation");
+        }
+        return id;
     }
 
     public Account getAccount(int accountId) throws BankException {
@@ -95,8 +99,9 @@ public class Bank {
         return true;
     }
 
-    public void transfer(Account originAccount, String destinationAccountNumber, int amount)
+    public void transfer(int originAccountId, String destinationAccountNumber, int amount)
              throws BankException {
+        var originAccount = getAccount(originAccountId);
         if (originAccount.getCard()
                          .getNumber()
                          .equals(destinationAccountNumber)) {

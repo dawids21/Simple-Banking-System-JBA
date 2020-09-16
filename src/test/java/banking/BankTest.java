@@ -19,7 +19,9 @@ class BankTest {
 
         @Override
         public Card generate(int accountId) {
-            return new Card(iin + String.format("%09d", accountId) + "0", cardPin);
+            var accountIdAsString = String.format("%09d", accountId);
+            var checksum = new LuhnChecksumGenerator(iin + accountIdAsString).generate();
+            return new Card(iin + accountIdAsString + checksum, cardPin);
         }
     }
 
@@ -30,11 +32,10 @@ class BankTest {
     private AccountsDatabase db;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws BankException {
         db = new AccountsDatabase("jdbc:sqlite:test.db");
         bank = new Bank(IIN, new BankTest.TestCardGenerator(IIN, PIN), db);
-        accountId = bank.createAccount()
-                        .getId();
+        accountId = bank.createAccount();
     }
 
     @AfterEach
@@ -45,20 +46,30 @@ class BankTest {
     @Nested
     class create_account {
 
+        private Account account;
+
+        @BeforeEach
+        void setUp() {
+            try {
+                account = bank.getAccount(accountId);
+            } catch (BankException e) {
+                account = null;
+            }
+        }
+
         @Test
         void creates_new_account() {
-            assertNotNull(bank.getAccount(accountId));
+            assertNotNull(account);
         }
 
         @Test
         void new_account_has_balance_zero() {
-            assertEquals(0, bank.getAccount(accountId)
-                                .getBalance());
+            assertEquals(0, account.getBalance());
         }
 
         @Test
         void new_card_is_generated_when_creating_new_account() {
-            assertNotNull(bank.getCard(accountId));
+            assertDoesNotThrow(() -> bank.getCard(accountId));
         }
     }
 

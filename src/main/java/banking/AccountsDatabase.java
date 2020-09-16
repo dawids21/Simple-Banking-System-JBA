@@ -23,8 +23,8 @@ public class AccountsDatabase {
         }
     }
 
-    public Account add(CardGenerator generator) {
-        Account acc = null;
+    public int add(CardGenerator generator) {
+        int id = -1;
         try (var conn = DriverManager.getConnection(sqlUrl);
                  var statement = conn.createStatement()) {
             var result = statement.executeQuery(
@@ -35,12 +35,12 @@ public class AccountsDatabase {
                 statement.executeUpdate(
                          "INSERT INTO " + TABLE_NAME + " (number, pin) VALUES ('" +
                          card.getNumber() + "', '" + card.getPin() + "');");
-                acc = new Account(nextId, card);
+                id = nextId;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return acc;
+        return id;
     }
 
     public Account getById(int id) {

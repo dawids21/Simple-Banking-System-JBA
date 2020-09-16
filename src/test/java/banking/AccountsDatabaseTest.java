@@ -40,7 +40,8 @@ class AccountsDatabaseTest {
 
         @Test
         void returns_true_when_account_is_in_database() {
-            var createdAccount = database.add(new TestCardGenerator(IIN, CARD_PIN));
+            var id = database.add(new TestCardGenerator(IIN, CARD_PIN));
+            var createdAccount = database.getById(id);
 
             Assertions.assertTrue(database.exists(createdAccount));
         }
