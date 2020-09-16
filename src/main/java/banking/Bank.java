@@ -8,14 +8,14 @@ public class Bank {
 
     private final String iin;
     private final CardGenerator cardGenerator;
-    private Account loggedAccount;
+    private int loggedAccountId;
     private final AccountsDatabase accountsDatabase;
 
     public Bank(String iin, CardGenerator cardGenerator,
                 AccountsDatabase accountsDatabase) {
         this.iin = iin;
         this.cardGenerator = cardGenerator;
-        loggedAccount = null;
+        loggedAccountId = -1;
         this.accountsDatabase = accountsDatabase;
     }
 
@@ -49,24 +49,28 @@ public class Bank {
         if (account != null && account.getCard()
                                       .getPin()
                                       .equals(cardPin)) {
-            loggedAccount = account;
+            loggedAccountId = account.getId();
             return true;
         }
 
         return false;
     }
 
-    public Account getLoggedAccount() {
-        return loggedAccount;
+    public Account getLoggedAccount() throws BankException {
+        try {
+            return getAccount(loggedAccountId);
+        } catch (BankException e) {
+            throw new BankException("You are not logged in");
+        }
     }
 
     public boolean isLogged() {
-        return loggedAccount != null;
+        return loggedAccountId != -1;
     }
 
     public boolean logout() {
         if (isLogged()) {
-            loggedAccount = null;
+            loggedAccountId = -1;
             return true;
         }
         return false;
@@ -96,6 +100,7 @@ public class Bank {
             e.printStackTrace();
             return false;
         }
+        logout();
         return true;
     }
 

@@ -50,8 +50,7 @@ public class Main {
                 case LOGGED:
                     switch (inputLine) {
                         case "1":
-                            invoker.setCommand(
-                                     new BalanceCommand(bank.getLoggedAccount()));
+                            invoker.setCommand(new BalanceCommand(bank));
                             invoker.execute();
                             break;
                         case "2":

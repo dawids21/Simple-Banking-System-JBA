@@ -105,7 +105,7 @@ class BankTest {
     class get_logged_account {
 
         @Test
-        void returns_logged_account_after_successful_login() {
+        void returns_logged_account_after_successful_login() throws BankException {
             bank.login(IIN + String.format("%09d", accountId) + "0", PIN);
 
             var loggedAccount = bank.getLoggedAccount();
@@ -113,17 +113,14 @@ class BankTest {
         }
 
         @Test
-        void returns_null_after_unsuccessful_login() {
+        void throws_bank_exception_unsuccessful_login() {
             bank.login(IIN + String.format("%09d", accountId) + "0", "2222");
-
-            var loggedAccount = bank.getLoggedAccount();
-            assertNull(loggedAccount);
+            assertThrows(BankException.class, () -> bank.getLoggedAccount());
         }
 
         @Test
-        void returns_null_if_has_not_logged_in() {
-            var loggedAccount = bank.getLoggedAccount();
-            assertNull(loggedAccount);
+        void throws_bank_exception_if_has_not_logged_in() {
+            assertThrows(BankException.class, () -> bank.getLoggedAccount());
         }
     }
 
@@ -144,10 +141,10 @@ class BankTest {
         }
 
         @Test
-        void sets_logged_account_to_null() {
+        void after_get_logged_account_throws_exception() {
             bank.login(IIN + String.format("%09d", accountId) + "0", "2222");
             bank.logout();
-            assertNull(bank.getLoggedAccount());
+            assertThrows(BankException.class, () -> bank.getLoggedAccount());
         }
     }
 

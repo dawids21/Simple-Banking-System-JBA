@@ -1,6 +1,8 @@
 package banking.commands;
 
+import banking.Account;
 import banking.Bank;
+import banking.exceptions.BankException;
 
 import java.util.Scanner;
 
@@ -25,7 +27,14 @@ public class AddIncomeToLoggedAccountCommand implements Command {
             System.out.println();
             return;
         }
-        var account = bank.getLoggedAccount();
+        Account account;
+        try {
+            account = bank.getLoggedAccount();
+        } catch (BankException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+            return;
+        }
         account.setBalance(account.getBalance() + amount);
         var success = bank.updateAccount(account);
         System.out.println(success ? "Income was added!" : "Error while adding income");
