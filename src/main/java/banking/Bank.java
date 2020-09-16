@@ -104,6 +104,11 @@ public class Bank {
         if (originAccount.getBalance() < amount) {
             throw new TransferException("Not enough money!");
         }
+        if (originAccount.getCard()
+                         .getNumber()
+                         .equals(destinationAccountNumber)) {
+            throw new TransferException("You can't transfer money to the same account!");
+        }
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
