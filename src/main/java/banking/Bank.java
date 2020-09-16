@@ -128,4 +128,10 @@ public class Bank {
     private boolean cardNumberExists(String destinationAccountNumber) {
         return accountsDatabase.existsByNumber(destinationAccountNumber);
     }
+
+    public void checkCardNumbersForTransfer(String originAccountNumber,
+                                            String destinationAccountNumber) {
+        //TODO implement checkCardNumbersForTransfer
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }

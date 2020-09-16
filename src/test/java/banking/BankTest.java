@@ -172,6 +172,67 @@ class BankTest {
     }
 
     @Nested
+    class checkCardNumbersForTransfer {
+
+        private String originAccountNumber;
+        private String destinationAccountNumber;
+
+        @BeforeEach
+        void setUp() throws BankException {
+            originAccountNumber = bank.getAccount(accountId)
+                                      .getCard()
+                                      .getNumber();
+            destinationAccountNumber = bank.getAccount(bank.createAccount())
+                                           .getCard()
+                                           .getNumber();
+        }
+
+        @Test
+        @DisplayName("throws an BankException with message \"Such card does " +
+                     "not exist.\" if the destination account does not exist")
+        void throws_an_bank_exception_with_message_such_card_does_not_exist_if_the_destination_account_does_not_exist() {
+            var thrownException = assertThrows(BankException.class,
+                                               () -> bank.checkCardNumbersForTransfer(
+                                                        originAccountNumber,
+                                                        IIN + "1234567899"));
+            assertEquals("Such card does not exist.", thrownException.getMessage());
+        }
+
+        @Test
+        @DisplayName("throws a BankException with message \"You can't transfer money " +
+                     "to the same account!\" when transfer to the same account")
+        void throws_a_bank_exception_with_message_you_can_t_transfer_money_to_the_same_account_when_transfer_to_the_same_account() {
+            var thrownException = assertThrows(BankException.class,
+                                               () -> bank.checkCardNumbersForTransfer(
+                                                        originAccountNumber,
+                                                        originAccountNumber));
+            assertEquals("You can't transfer money to the same account!",
+                         thrownException.getMessage());
+        }
+
+        @Test
+        @DisplayName("throws a BankException with message \"Probably you made mistake " +
+                     "in the card number. Please try again!\" when destination account " +
+                     "does not pass Luhn algorithm")
+        void throws_a_bank_exception_with_message_probably_you_made_mistake_in_the_card_number_please_try_again_when_destination_account_does_not_pass_luhn_algorithm() {
+            var thrownException = assertThrows(BankException.class,
+                                               () -> bank.checkCardNumbersForTransfer(
+                                                        originAccountNumber,
+                                                        IIN + "1234567891"));
+            assertEquals(
+                     "Probably you made mistake in the card number. Please try again!",
+                     thrownException.getMessage());
+        }
+
+        @Test
+        @DisplayName("does not throw an exception when everything is ok")
+        void does_not_throw_an_exception_when_everything_is_ok() {
+            assertDoesNotThrow(() -> bank.checkCardNumbersForTransfer(originAccountNumber,
+                                                                      destinationAccountNumber));
+        }
+    }
+
+    @Nested
     class transfer {
 
         private int destinationAccountId;
@@ -189,17 +250,6 @@ class BankTest {
         }
 
         @Test
-        @DisplayName("throws an BankException with message \"Such card does " +
-                     "not exist.\" if the destination account does not exist")
-        void throws_an_bank_exception_with_message_such_card_does_not_exist_if_the_destination_account_does_not_exist() {
-            var thrownException = assertThrows(BankException.class,
-                                               () -> bank.transfer(accountId,
-                                                                   IIN + "1234567899",
-                                                                   10000));
-            assertEquals("Such card does not exist.", thrownException.getMessage());
-        }
-
-        @Test
         @DisplayName("throws a BankException with message \"Not enough money!\" " +
                      "if the origin account does not have enough money")
         void throws_a_bank_exception_with_message_not_enough_money_if_the_origin_account_does_not_have_enough_money() {
@@ -208,35 +258,6 @@ class BankTest {
                                                                    destinationAccountNumber,
                                                                    20000));
             assertEquals("Not enough money!", thrownException.getMessage());
-        }
-
-        @Test
-        @DisplayName("throws a BankException with message \"You can't transfer money " +
-                     "to the same account!\" when transfer to the same account")
-        void throws_a_bank_exception_with_message_you_can_t_transfer_money_to_the_same_account_when_transfer_to_the_same_account()
-                 throws BankException {
-            var originAccount = bank.getAccount(accountId);
-            var thrownException = assertThrows(BankException.class,
-                                               () -> bank.transfer(accountId,
-                                                                   originAccount.getCard()
-                                                                                .getNumber(),
-                                                                   10000));
-            assertEquals("You can't transfer money to the same account!",
-                         thrownException.getMessage());
-        }
-
-        @Test
-        @DisplayName("throws a BankException with message \"Probably you made mistake " +
-                     "in the card number. Please try again!\" when destination account " +
-                     "does not pass Luhn algorithm")
-        void throws_a_bank_exception_with_message_probably_you_made_mistake_in_the_card_number_please_try_again_when_destination_account_does_not_pass_luhn_algorithm() {
-            var thrownException = assertThrows(BankException.class,
-                                               () -> bank.transfer(accountId,
-                                                                   IIN + "1234567891",
-                                                                   10000));
-            assertEquals(
-                     "Probably you made mistake in the card number. Please try again!",
-                     thrownException.getMessage());
         }
 
         @Test
