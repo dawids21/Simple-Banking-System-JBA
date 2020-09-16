@@ -99,6 +99,25 @@ public class Bank {
         return true;
     }
 
+    public void checkCardNumbersForTransfer(String originAccountNumber,
+                                            String destinationAccountNumber)
+             throws BankException {
+        if (originAccountNumber.equals(destinationAccountNumber)) {
+            throw new BankException("You can't transfer money to the same account!");
+        }
+        if (!new LuhnChecksumChecker(destinationAccountNumber).correct()) {
+            throw new BankException(
+                     "Probably you made mistake in the card number. Please try again!");
+        }
+        if (!cardNumberExists(destinationAccountNumber)) {
+            throw new BankException("Such card does not exist.");
+        }
+    }
+
+    private boolean cardNumberExists(String destinationAccountNumber) {
+        return accountsDatabase.existsByNumber(destinationAccountNumber);
+    }
+
     public void transfer(int originAccountId, String destinationAccountNumber, int amount)
              throws BankException {
         var originAccount = getAccount(originAccountId);
@@ -123,15 +142,5 @@ public class Bank {
         destinationAccount.setBalance(destinationAccount.getBalance() + amount);
         accountsDatabase.update(originAccount);
         accountsDatabase.update(destinationAccount);
-    }
-
-    private boolean cardNumberExists(String destinationAccountNumber) {
-        return accountsDatabase.existsByNumber(destinationAccountNumber);
-    }
-
-    public void checkCardNumbersForTransfer(String originAccountNumber,
-                                            String destinationAccountNumber) {
-        //TODO implement checkCardNumbersForTransfer
-        throw new UnsupportedOperationException("Not implemented yet");
     }
 }
