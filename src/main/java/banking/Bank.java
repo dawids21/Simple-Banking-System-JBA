@@ -117,7 +117,12 @@ public class Bank {
         if (originAccount.getBalance() < amount) {
             throw new BankException("Not enough money!");
         }
-        throw new UnsupportedOperationException("Not implemented yet");
+
+        var destinationAccount = accountsDatabase.getByNumber(destinationAccountNumber);
+        originAccount.setBalance(originAccount.getBalance() - amount);
+        destinationAccount.setBalance(destinationAccount.getBalance() + amount);
+        accountsDatabase.update(originAccount);
+        accountsDatabase.update(destinationAccount);
     }
 
     private boolean cardNumberExists(String destinationAccountNumber) {
