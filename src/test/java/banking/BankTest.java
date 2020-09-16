@@ -1,6 +1,7 @@
 package banking;
 
 import banking.exceptions.AccountNotFoundException;
+import banking.exceptions.TransferException;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -164,25 +165,37 @@ class BankTest {
     @Nested
     class transfer {
 
-        @Test
-        @DisplayName("throws an AccountNotFoundException with message \"Logged account " +
-                     "is invalid!\" if the origin account does not exist")
-        void throws_an_account_not_found_exception_with_message_logged_account_is_invalid_if_the_origin_account_does_not_exist() {
-            fail("Not implemented yet");
+        private Account originAccount;
+        private Account destinationAccount;
+
+        @BeforeEach
+        void setUp() {
+            originAccount = bank.getAccount(accountId);
+            originAccount.setBalance(10000);
+            destinationAccount = bank.createAccount();
         }
 
         @Test
         @DisplayName("throws an AccountNotFoundException with message \"Such card does " +
                      "not exist.\" if the destination account does not exist")
         void throws_an_account_not_found_exception_with_message_such_card_does_not_exist_if_the_destination_account_does_not_exist() {
-            fail("Not implemented yet");
+            var thrownException = assertThrows(AccountNotFoundException.class,
+                                               () -> bank.transfer(originAccount,
+                                                                   IIN + "123456788",
+                                                                   10000));
+            assertEquals("Such card does not exist.", thrownException.getMessage());
         }
 
         @Test
         @DisplayName("throws a TransferException with message \"Not enough money!\" " +
                      "if the origin account does not have enough money")
         void throws_a_transfer_exception_with_message_not_enough_money_if_the_origin_account_does_not_have_enough_money() {
-            fail("Not implemented yet");
+            var thrownException = assertThrows(TransferException.class,
+                                               () -> bank.transfer(originAccount,
+                                                                   destinationAccount.getCard()
+                                                                                     .getNumber(),
+                                                                   20000));
+            assertEquals("Not enough money!", thrownException.getMessage());
         }
 
         @Test
@@ -190,7 +203,13 @@ class BankTest {
                  "throws a TransferException with message \"You can't transfer money " +
                  "to the same account!\" when transfer to the same account")
         void throws_a_transfer_exception_with_message_you_can_t_transfer_money_to_the_same_account_when_transfer_to_the_same_account() {
-            fail("Not implemented yet");
+            var thrownException = assertThrows(TransferException.class,
+                                               () -> bank.transfer(originAccount,
+                                                                   originAccount.getCard()
+                                                                                .getNumber(),
+                                                                   10000));
+            assertEquals("You can't transfer money to the same account!",
+                         thrownException.getMessage());
         }
 
         @Test
@@ -199,13 +218,22 @@ class BankTest {
                  "in the card number. Please try again!\" when destination account " +
                  "does not pass Luhn algorithm")
         void throws_a_transfer_exception_with_message_probably_you_made_mistake_in_the_card_number_please_try_again_when_destination_account_does_not_pass_luhn_algorithm() {
-            fail("Not implemented yet");
+            var thrownException = assertThrows(TransferException.class,
+                                               () -> bank.transfer(originAccount,
+                                                                   IIN + "123456781",
+                                                                   10000));
+            assertEquals(
+                     "Probably you made mistake in the card number. Please try again!",
+                     thrownException.getMessage());
         }
 
         @Test
         @DisplayName("transfers money from one account to another")
         void transfers_money_from_one_account_to_another() {
-            fail("Not implemented yet");
+            bank.transfer(originAccount, destinationAccount.getCard()
+                                                           .getNumber(), 10000);
+            assertEquals(0, originAccount.getBalance());
+            assertEquals(10000, destinationAccount.getBalance());
         }
     }
 }

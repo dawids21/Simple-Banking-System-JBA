@@ -94,4 +94,10 @@ public class Bank {
         }
         return true;
     }
+
+    public void transfer(Account originAccount, String destinationAccountNumber,
+                         int amount) {
+        //TODO implement transfer
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }
