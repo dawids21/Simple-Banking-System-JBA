@@ -121,17 +121,12 @@ public class Bank {
     public void transfer(int originAccountId, String destinationAccountNumber, int amount)
              throws BankException {
         var originAccount = getAccount(originAccountId);
-        if (originAccount.getCard()
-                         .getNumber()
-                         .equals(destinationAccountNumber)) {
-            throw new BankException("You can't transfer money to the same account!");
-        }
-        if (!new LuhnChecksumChecker(destinationAccountNumber).correct()) {
-            throw new BankException(
-                     "Probably you made mistake in the card number. Please try again!");
-        }
-        if (!cardNumberExists(destinationAccountNumber)) {
-            throw new BankException("Such card does not exist.");
+        try {
+            checkCardNumbersForTransfer(originAccount.getCard()
+                                                     .getNumber(),
+                                        destinationAccountNumber);
+        } catch (BankException e) {
+            throw new BankException("Error with account numbers", e);
         }
         if (originAccount.getBalance() < amount) {
             throw new BankException("Not enough money!");
