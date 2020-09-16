@@ -230,7 +230,7 @@ class BankTest {
         @Test
         @DisplayName("transfers money from one account to another")
         void transfers_money_from_one_account_to_another()
-                 throws AccountNotFoundException {
+                 throws AccountNotFoundException, TransferException {
             bank.transfer(originAccount, destinationAccount.getCard()
                                                            .getNumber(), 10000);
             assertEquals(0, originAccount.getBalance());

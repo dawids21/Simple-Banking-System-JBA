@@ -1,6 +1,7 @@
 package banking;
 
 import banking.exceptions.AccountNotFoundException;
+import banking.exceptions.TransferException;
 
 import java.sql.SQLException;
 
@@ -96,9 +97,12 @@ public class Bank {
     }
 
     public void transfer(Account originAccount, String destinationAccountNumber,
-                         int amount) throws AccountNotFoundException {
+                         int amount) throws AccountNotFoundException, TransferException {
         if (!cardNumberExists(destinationAccountNumber)) {
             throw new AccountNotFoundException("Such card does not exist.");
+        }
+        if (originAccount.getBalance() < amount) {
+            throw new TransferException("Not enough money!");
         }
         throw new UnsupportedOperationException("Not implemented yet");
     }
