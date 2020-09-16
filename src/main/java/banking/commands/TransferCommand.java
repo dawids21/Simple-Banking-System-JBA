@@ -34,7 +34,9 @@ public class TransferCommand implements Command {
         try {
             amount = Integer.parseInt(input.nextLine());
         } catch (NumberFormatException e) {
-            amount = 0;
+            System.out.println("You have to input number");
+            System.out.println();
+            return;
         }
         try {
             bank.transfer(bank.getLoggedAccount()
