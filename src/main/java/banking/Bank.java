@@ -100,7 +100,6 @@ public class Bank {
             e.printStackTrace();
             return false;
         }
-        logout();
         return true;
     }
 
