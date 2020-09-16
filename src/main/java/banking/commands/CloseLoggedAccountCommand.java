@@ -1,7 +1,7 @@
 package banking.commands;
 
 import banking.Bank;
-import banking.exceptions.AccountNotFoundException;
+import banking.exceptions.BankException;
 
 public class CloseLoggedAccountCommand implements Command {
 
@@ -16,7 +16,7 @@ public class CloseLoggedAccountCommand implements Command {
         var success = true;
         try {
             success = bank.closeAccount(bank.getLoggedAccount());
-        } catch (AccountNotFoundException e) {
+        } catch (BankException e) {
             e.printStackTrace();
             success = false;
         }

@@ -1,7 +1,6 @@
 package banking;
 
-import banking.exceptions.AccountNotFoundException;
-import banking.exceptions.TransferException;
+import banking.exceptions.BankException;
 
 import java.sql.SQLException;
 
@@ -24,15 +23,15 @@ public class Bank {
         return accountsDatabase.add(cardGenerator);
     }
 
-    public Account getAccount(int accountId) {
+    public Account getAccount(int accountId) throws BankException {
         var account = accountsDatabase.getById(accountId);
         if (account == null) {
-            throw new IllegalArgumentException("Wrong account id");
+            throw new BankException("Wrong account id");
         }
         return account;
     }
 
-    public Card getCard(int accountId) {
+    public Card getCard(int accountId) throws BankException {
         return getAccount(accountId).getCard();
     }
 
@@ -82,9 +81,9 @@ public class Bank {
         return success;
     }
 
-    public boolean closeAccount(Account account) throws AccountNotFoundException {
+    public boolean closeAccount(Account account) throws BankException {
         if (!accountExists(account)) {
-            throw new AccountNotFoundException("Account does not exists");
+            throw new BankException("Account does not exists");
         }
 
         try {
@@ -96,22 +95,22 @@ public class Bank {
         return true;
     }
 
-    public void transfer(Account originAccount, String destinationAccountNumber,
-                         int amount) throws AccountNotFoundException, TransferException {
+    public void transfer(Account originAccount, String destinationAccountNumber, int amount)
+             throws BankException {
         if (originAccount.getCard()
                          .getNumber()
                          .equals(destinationAccountNumber)) {
-            throw new TransferException("You can't transfer money to the same account!");
+            throw new BankException("You can't transfer money to the same account!");
         }
         if (!new LuhnChecksumChecker(destinationAccountNumber).correct()) {
-            throw new TransferException(
+            throw new BankException(
                      "Probably you made mistake in the card number. Please try again!");
         }
         if (!cardNumberExists(destinationAccountNumber)) {
-            throw new AccountNotFoundException("Such card does not exist.");
+            throw new BankException("Such card does not exist.");
         }
         if (originAccount.getBalance() < amount) {
-            throw new TransferException("Not enough money!");
+            throw new BankException("Not enough money!");
         }
         throw new UnsupportedOperationException("Not implemented yet");
     }

@@ -1,6 +1,8 @@
 package banking.commands;
 
+import banking.Account;
 import banking.Bank;
+import banking.exceptions.BankException;
 
 public class CreateAccountCommand implements Command {
 
@@ -12,14 +14,14 @@ public class CreateAccountCommand implements Command {
 
     @Override
     public void execute() {
-        var account = bank.createAccount();
-
-        if (account == null) {
-            System.out.println("Error during account creation");
-            System.out.println();
+        Account account;
+        try {
+            account = bank.getAccount(bank.createAccount());
+        } catch (BankException e) {
+            System.out.println(e.getMessage());
             return;
         }
-       
+
         var card = account.getCard();
         System.out.println("Your card has been created");
         System.out.println("Your card number:");
